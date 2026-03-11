@@ -1,0 +1,21 @@
+# Java compiled output
+*.class
+bin/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js
+node_modules/
+
+# C# / .NET
+obj/
+*.exe
+*.dll
+*.user
+.vs/
+
+# OS
+.DS_Store
