@@ -1,8 +1,10 @@
 # programming-concepts-crosslang
 
+> **Learning lab.** A resource I built to refresh core programming concepts across languages, so I can read and discuss code in whatever stack a team uses. My portfolio work is pinned on my [profile](https://github.com/aastha0208).
+
 A structured learning resource for understanding core programming concepts across **Java, Python, JavaScript, and C#** side by side.
 
-Built as a companion to [java-practice-programs](https://github.com/aastha0208/java-practice-programs) — Java is the primary language, with every concept mapped to its equivalent in the other three languages.
+Java is the primary language, with every concept mapped to its equivalent in the other three languages.
 
 ---
 
