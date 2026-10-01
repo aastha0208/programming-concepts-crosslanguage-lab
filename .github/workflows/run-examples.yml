@@ -1,0 +1,92 @@
+# Runs every example program in all five languages on each push.
+# A job fails if any program exits with an error, and names the file that broke.
+name: Run all examples
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Compile
+        run: javac -d build java/basics/*.java java/crosslang/*.java
+      - name: Run every program
+        run: |
+          set -e
+          for f in java/basics/*.java java/crosslang/*.java; do
+            pkg=$(grep -m1 -oE '^package [a-z.]+' "$f" | cut -d' ' -f2)
+            cls="${pkg:+$pkg.}$(basename "$f" .java)"
+            echo "::group::$cls"
+            java -cp build "$cls" < /dev/null || { echo "::error file=$f::$cls failed"; exit 1; }
+            echo "::endgroup::"
+          done
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run every program
+        run: |
+          set -e
+          for f in python/*.py; do
+            echo "::group::$f"
+            python "$f" < /dev/null || { echo "::error file=$f::$f failed"; exit 1; }
+            echo "::endgroup::"
+          done
+
+  javascript-typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run every JavaScript program
+        run: |
+          set -e
+          for f in javascript/*.js; do
+            echo "::group::$f"
+            node "$f" < /dev/null || { echo "::error file=$f::$f failed"; exit 1; }
+            echo "::endgroup::"
+          done
+      - name: Run every TypeScript program
+        run: |
+          set -e
+          npm install --no-save --silent tsx
+          for f in typescript/*.ts; do
+            echo "::group::$f"
+            npx tsx "$f" < /dev/null || { echo "::error file=$f::$f failed"; exit 1; }
+            echo "::endgroup::"
+          done
+
+  csharp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Run every program
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+          DOTNET_NOLOGO: "1"
+        run: |
+          set -e
+          dotnet new console -o "$RUNNER_TEMP/runner" --force > /dev/null
+          for f in csharp/*.cs; do
+            echo "::group::$f"
+            cp "$f" "$RUNNER_TEMP/runner/Program.cs"
+            dotnet run --project "$RUNNER_TEMP/runner" < /dev/null || { echo "::error file=$f::$f failed"; exit 1; }
+            echo "::endgroup::"
+          done

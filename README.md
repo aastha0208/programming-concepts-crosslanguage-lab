@@ -1,5 +1,7 @@
 # Programming Concepts Across Languages
 
+[![Run all examples](https://github.com/aastha0208/programming-concepts-crosslanguage-lab/actions/workflows/run-examples.yml/badge.svg)](https://github.com/aastha0208/programming-concepts-crosslanguage-lab/actions/workflows/run-examples.yml)
+
 > **Learning lab.** A reference I built to refresh core programming concepts across languages, so I can read and discuss code in whatever stack a team uses. My portfolio work is pinned on my [profile](https://github.com/aastha0208).
 
 **12 core concepts × 5 languages — Java, Python, JavaScript, TypeScript and C# — as small runnable programs, side by side.**
@@ -69,6 +71,8 @@ Each topic is written once per language, so you can open the same idea in all fi
 Suggested pairings of fundamentals and topics: T01 + CL01 (types), T05 + CL02 (strings), T08 + CL03 (collections), T06 + CL04 (OOP), T07 + CL05 (exceptions).
 
 ## Running the examples
+
+Every program in all five languages runs automatically on each change via [GitHub Actions](.github/workflows/run-examples.yml); the badge at the top shows the latest result. To run them yourself:
 
 ```bash
 # Java — compile everything once, then run any class
