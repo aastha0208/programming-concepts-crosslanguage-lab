@@ -34,7 +34,8 @@ class CL05_Exceptions
         Console.WriteLine("=== 1. BASIC TRY/CATCH/FINALLY ===\n");
 
         try {
-            int result = 10 / 0;         // DivideByZeroException (Java: ArithmeticException)
+            int zero = 0;                // C# rejects "10 / 0" at compile time, so divide by a variable
+            int result = 10 / zero;      // DivideByZeroException (Java: ArithmeticException)
             Console.WriteLine(result);
         } catch (DivideByZeroException e) {
             Console.WriteLine($"Caught: {e.Message}");

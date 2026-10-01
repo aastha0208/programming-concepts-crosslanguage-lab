@@ -82,11 +82,12 @@ jobs:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_NOLOGO: "1"
         run: |
-          set -e
           dotnet new console -o "$RUNNER_TEMP/runner" --force > /dev/null
+          failed=0
           for f in csharp/*.cs; do
             echo "::group::$f"
             cp "$f" "$RUNNER_TEMP/runner/Program.cs"
-            dotnet run --project "$RUNNER_TEMP/runner" < /dev/null || { echo "::error file=$f::$f failed"; exit 1; }
+            dotnet run --project "$RUNNER_TEMP/runner" < /dev/null || { echo "::error file=$f::$f failed"; failed=1; }
             echo "::endgroup::"
           done
+          exit $failed
