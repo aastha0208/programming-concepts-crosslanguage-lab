@@ -196,7 +196,9 @@ class CL04_OOP
         var duck = new Duck("Donald");
         duck.Fly();
         duck.Swim();
-        Console.WriteLine(duck.Description());  // default interface method
+        // Default interface methods are only reachable through the interface type,
+        // so duck.Description() would not compile. (Java allows calling them on the class.)
+        Console.WriteLine(((IFlyable)duck).Description());  // default interface method
 
         IFlyable flier = duck;
         flier.Fly();
